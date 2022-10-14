@@ -1,9 +1,12 @@
-import Header from '../components/Header'
+import MenuBar from '../components/MenuBar'
 
 export default function Home() {
   return (
     <>
-      <Header />
+      <MenuBar />
     </>
   )
 }
+
+
+
