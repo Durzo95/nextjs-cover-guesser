@@ -1,26 +1,98 @@
-html,
-body {
-  padding: 0;
+:root {
+  --text: #f66936;
+  --card: #202426;
+  --orange: #ffa200;
+  --bg: linear-gradient(135deg, #fc2473, #f66936);
+
+  --delay: 200ms;
+  --rotate-0: rotateY(0deg);
+  --rotate-90: rotateY(90deg);
+  --transition: all ease-in 200ms;
+
+  --radius: 0.75rem;
+  --shadow: 1px 1px 13px #03030390;
+
+  --card-width: 150px;
+  --card-width-mobile: 20vw;
+  --card-enter: enter 600ms ease;
+
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+    sans-serif;
+
+  font-size: 1rem;
+}
+
+/* Removes scrollbar and browser margins, focus more on the game */
+*,
+*::before,
+*::after {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-* {
+  padding: 0;
   box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+body {
+  height: 100vh;
+  width: 100vw;
+  padding: 1rem;
+  display: flex;
+  overflow: auto;
+  color: var(--text);
+  background: var(--bg);
+  align-items: flex-start;
+  justify-content: center;
+  font-family: var(--font-family);
+}
+
+/* ========= Menu ======================== */
+
+header {
+  width: 100%;
+  height: 4rem;
+  display: flex;
+  padding: 0.5rem;
+  align-items: center;
+  background: var(--card);
+  box-shadow: var(--shadow);
+  border-radius: var(--radius);
+  animation: var(--card-enter);
+  justify-content: space-evenly;
+}
+h3 {
+  margin: auto;
+  color: var(--text);
+}
+h4 {
+  margin: auto;
+  color: var(--orange);
+}
+button {
+  border: none;
+  outline: none;
+  padding: 0.5rem;
+  border-radius: 3px;
+  margin: auto;
+}
+
+/* ========= Mobile ===================== */
+@media screen and (max-width: 720px) {
   body {
-    color: white;
-    background: black;
+    align-items: center;
+  }
+
+  header {
+    left: 0;
+    bottom: 0;
+    margin: auto;
+    position: fixed;
+    border-radius: 0;
+  }
+
+  .grid {
+    margin: auto auto 3rem auto;
+  }
+
+  .card {
+    width: var(--card-width-mobile);
   }
 }
