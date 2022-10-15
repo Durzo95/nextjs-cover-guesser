@@ -2,7 +2,10 @@
   --text: #f66936;
   --card: #202426;
   --orange: #ffa200;
-  --bg: linear-gradient(135deg, #fc2473, #f66936);
+  /* --bg: linear-gradient(135deg, #fc2473, #f66936); */
+  --bg: linear-gradient(135deg, #40c9ff, #e81cff);
+
+
 
   --delay: 200ms;
   --rotate-0: rotateY(0deg);
@@ -28,7 +31,7 @@ body {
   width: 100vw;
   /* padding: 1rem; */
   overflow: auto;
-  /* background: var(--bg); */
+  background: var(--bg);
 }
 
 
