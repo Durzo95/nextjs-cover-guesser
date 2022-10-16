@@ -1,22 +1,49 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-export default function handler(req, res) {
-  const api_res = fetch('https://api.igdb.com/v4/games', {
+
+// this is the api route that is called by the Cover component
+export async function getGameData() {
+  const queryBody = 'fields name,cover.url, cover.height, cover.width, total_rating_count, rating, summary;\nwhere total_rating_count != null & cover != null;  \nsort total_rating_count desc;'
+  const apiResponse = await fetch('https://api.igdb.com/v4/games', {
     method: 'POST',
     headers: {
       'Client-ID': `${process.env.client_id}`,
       Authorization: `Bearer ${process.env.access_token}`,
       'Content-Type': 'text/plain'
     },
-    body: 'fields name,cover.url, cover.height, cover.width, total_rating_count, rating, summary;\nwhere total_rating_count != null & cover != null;  \nsort total_rating_count desc;'
+    body: queryBody
   });
 
-  api_res.then((response) => {
-    return response.json();
-  }).then((data) => {
-    // select a random item from the array
-    const random_item = data[Math.floor(Math.random() * data.length)];
-    // Convert the cover image url to 1080p
-    random_item.cover.url = random_item.cover.url.replace('t_thumb', 't_1080p');
-    res.status(200).json(random_item);
-  });
+  let data = await apiResponse.json();
+  data = processData(data);
+
+  return data;
+}
+
+function processData(data) {
+  // select a random item from the array
+  const randomGame = data[Math.floor(Math.random() * data.length)];
+  // Convert the cover image url to 1080p
+  randomGame.cover.url = randomGame.cover.url.replace('t_thumb', 't_1080p');
+  // add https to the url
+  randomGame.cover.url = 'https:' + randomGame.cover.url;
+  // resize the image to fit the screen
+  [randomGame.cover.width, randomGame.cover.height] = resizeDimensions(randomGame.cover.width, randomGame.cover.height);
+
+  return randomGame;
+}
+
+function resizeDimensions(width, height) {
+  // Get the ratio to keep the image proportions
+  const ratio = width / height;
+  // Cover can not be more than 608 pixels wide
+  const newWidth = 608;
+  const newHeight = newWidth / ratio;
+
+  return [newWidth, newHeight];
+}
+
+// Path: pages\api\GamesData
+export default async function handler(req, res) {
+  const jsonData = await getGameData();
+  res.status(200).json(jsonData);
 }
