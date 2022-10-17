@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button'
 
 export default function NameInput() {
     return (
-        <Container className='bg-dark rounded-3 my-5'>
+        <Container className='bg-dark rounded-3'>
             <Stack direction="horizontal" gap={3} className="p-3">
                 <Form.Control className="me-auto" placeholder="Guess name here..." />
                 <Button variant="secondary">Submit</Button>

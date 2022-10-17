@@ -5,7 +5,7 @@ import Col from 'react-bootstrap/Col';
 
 export default function MainLayout({ children }) {
     return (
-        <Container>
+        <Container className='my-4'>
             <Row>
                 <Col></Col>
                 {/* This is where the main content goes, centered on the page */}
