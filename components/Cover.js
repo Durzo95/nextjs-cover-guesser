@@ -1,7 +1,6 @@
-import Image from 'next/image'
 import Container from 'react-bootstrap/Container'
-import { getGameData } from '../pages/api/GamesData'
 import { useState, useEffect } from 'react'
+import PixelatedImage from './PixelatedImage'
 
 
 export default function Cover({ data }) {
@@ -11,7 +10,9 @@ export default function Cover({ data }) {
     const [gameName, setGameName] = useState(''); // this is the state that will hold the game name
     const [gameSummary, setGameSummary] = useState(''); // this is the state that will hold the game summary
 
-    console.log(data)
+    const [pixelSize, setPixelSize] = useState(10); // this is the state that will hold the pixel size
+    const [pixelizeEnabled, setPixelizeEnabled] = useState(true)
+
     // set the state with the data from the api call once the component mounts
     useEffect(() => {
         // if the data is not null, set the state with the data
@@ -27,8 +28,15 @@ export default function Cover({ data }) {
     return (
         <>
             <Container className="text-center rounded-3 bg-dark p-5">
-                <Image src={cover} alt='Game Cover to Guess' width={width} height={height} className="border border-light" />
-                {/*width={608} height={810} */}
+                <PixelatedImage
+                    src={cover}
+                    size={pixelSize}
+                    width={width}
+                    height={height}
+                    enabled={pixelizeEnabled}
+                />
+                {/* <ImagePixelated src='./ghostrunner.jpg' alt='Game Cover to Guess' pixelSize={25}
+                    className="border border-light" /> */}
             </Container>
         </>
     )

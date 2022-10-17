@@ -9,7 +9,7 @@ export default function MainLayout({ children }) {
             <Row>
                 <Col></Col>
                 {/* This is where the main content goes, centered on the page */}
-                <Col xs={8}>{children}</Col>
+                <Col md={10} lg={8}>{children}</Col>
                 <Col></Col>
             </Row>
         </Container>
