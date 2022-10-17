@@ -35,8 +35,6 @@ export default function Cover({ data }) {
                     height={height}
                     enabled={pixelizeEnabled}
                 />
-                {/* <ImagePixelated src='./ghostrunner.jpg' alt='Game Cover to Guess' pixelSize={25}
-                    className="border border-light" /> */}
             </Container>
         </>
     )
