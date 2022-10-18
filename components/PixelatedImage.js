@@ -7,7 +7,7 @@ export default function PixelatedImage({ src, size, enabled }) {
         <Row className=''>
             {/* <svg style={{ width: `${width}px`, height: `${height}px` }}> */}
             <svg
-                className='position-absolute top-0 p-5'
+                className='position-absolute top-0 start-50 translate-middle-x p-5'
                 style={{
                     // width: `${width}px`,
                     // height: `${height}px`
@@ -25,8 +25,8 @@ export default function PixelatedImage({ src, size, enabled }) {
                     <feMorphology operator="dilate" radius={size} />
                 </filter>
                 <image
-                    // width='auto'
-                    height='100%'
+                    width='100%'
+                    // height='100%'
                     preserveAspectRatio="xMidYMid slice"
                     filter={enabled ? "url(#pixelate)" : ""}
                     href={src}
