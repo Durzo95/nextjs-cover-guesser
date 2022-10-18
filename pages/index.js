@@ -10,15 +10,21 @@ import Stack from 'react-bootstrap/Stack'
 
 
 export default function Home({ data }) {
-
+  // The values from the IGDB API
   const [coverUrl, setCoverUrl] = useState('');
   const [width, setWidth] = useState(608);
   const [height, setHeight] = useState(810);
   const [gameName, setGameName] = useState('');
   const [gameSummary, setGameSummary] = useState('');
-
+  // The pixelation settings
   const [pixelSize, setPixelSize] = useState(10); // This changes how big the pixels are during pixelation
   const [pixelizeEnabled, setPixelizeEnabled] = useState(true)
+  // Game State Settings
+  const [userGuess, setUserGuess] = useState('');
+  const [score, setScore] = useState(0);
+  const [guesses, setGuesses] = useState(0);
+  const [correctGuesses, setCorrectGuesses] = useState(0);
+  const [incorrectGuesses, setIncorrectGuesses] = useState(0);
 
   // set the state with the data from the api call once the component mounts
   useEffect(() => {
@@ -36,10 +42,10 @@ export default function Home({ data }) {
     <>
       <MainLayout>
         <Stack direction='vertical' gap={4}>
-          <MenuBar />
+          <MenuBar score={score} />
           {/* Only show the game cover once the data has been loaded */}
           {data && <Cover coverUrl={coverUrl} pixelSize={pixelSize} pixelizeEnabled={pixelizeEnabled} />}
-          <NameInput data={{ gameName }} />
+          <NameInput gameName={gameName} />
         </Stack>
       </MainLayout>
     </>
