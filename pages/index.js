@@ -11,13 +11,13 @@ import Stack from 'react-bootstrap/Stack'
 
 export default function Home({ data }) {
 
-  const [coverUrl, setCoverUrl] = useState(''); // this is the state that will hold the cover image url
-  const [width, setWidth] = useState(608); // this is the state that will hold the cover image width
-  const [height, setHeight] = useState(810); // this is the state that will hold the cover image height
-  const [gameName, setGameName] = useState(''); // this is the state that will hold the game name
-  const [gameSummary, setGameSummary] = useState(''); // this is the state that will hold the game summary
+  const [coverUrl, setCoverUrl] = useState('');
+  const [width, setWidth] = useState(608);
+  const [height, setHeight] = useState(810);
+  const [gameName, setGameName] = useState('');
+  const [gameSummary, setGameSummary] = useState('');
 
-  const [pixelSize, setPixelSize] = useState(10); // this is the state that will hold the pixel size
+  const [pixelSize, setPixelSize] = useState(10); // This changes how big the pixels are during pixelation
   const [pixelizeEnabled, setPixelizeEnabled] = useState(true)
 
   // set the state with the data from the api call once the component mounts
