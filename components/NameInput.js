@@ -10,7 +10,6 @@ export default function NameInput() {
             <Stack direction="horizontal" gap={3} className="p-3">
                 <Form.Control className="me-auto" placeholder="Guess name here..." />
                 <Button variant="secondary">Submit</Button>
-                <div className="vr" />
                 {/* <Button variant="outline-danger">Reset</Button> */}
             </Stack>
         </Container>
