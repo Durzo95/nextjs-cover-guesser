@@ -28,9 +28,9 @@ export default function Cover({ data }) {
 
     return (
         <>
-            <Container className="rounded-3 bg-dark p-5 position-relative">
+            <Container className="rounded-3 bg-dark p-5">
                 {/* This is used to make sure the above container scales correctly with the SVG, it's bad workaround lol. Does not display on the screen*/}
-                <Image src={cover} alt={gameName} width={width} height={height} className='d-none' />
+                {/* <Image src={cover} alt={gameName} width={width} height={height} className='d-none' /> */}
                 <PixelatedImage
                     src={cover}
                     size={pixelSize}
