@@ -1,6 +1,7 @@
 import Container from 'react-bootstrap/Container'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import PixelatedImage from './PixelatedImage'
+import Image from 'next/image';
 
 
 export default function Cover({ data }) {
@@ -11,7 +12,7 @@ export default function Cover({ data }) {
     const [gameSummary, setGameSummary] = useState(''); // this is the state that will hold the game summary
 
     const [pixelSize, setPixelSize] = useState(10); // this is the state that will hold the pixel size
-    const [pixelizeEnabled, setPixelizeEnabled] = useState(true)
+    const [pixelizeEnabled, setPixelizeEnabled] = useState(false)
 
     // set the state with the data from the api call once the component mounts
     useEffect(() => {
@@ -27,12 +28,12 @@ export default function Cover({ data }) {
 
     return (
         <>
-            <Container className="text-center rounded-3 bg-dark p-5">
+            <Container className="rounded-3 bg-dark p-5 position-relative">
+                {/* This is used to make sure the above container scales correctly with the SVG, it's bad workaround lol. Does not display on the screen*/}
+                <Image src={cover} alt={gameName} width={width} height={height} className='d-none' />
                 <PixelatedImage
                     src={cover}
                     size={pixelSize}
-                    width={width}
-                    height={height}
                     enabled={pixelizeEnabled}
                 />
             </Container>
