@@ -1,16 +1,17 @@
 import Stack from 'react-bootstrap/Stack';
 import Link from 'next/link';
+import { Container } from 'react-bootstrap';
 
 export default function MenuBar() {
     return (
         <>
-            <header className='bg-dark rounded-3'>
+            <Container className='bg-dark rounded-3 py-2'>
                 <Stack direction="horizontal" gap={3}>
-                    <h4 className="text-warning mx-auto py-2">Wins - 0</h4>
-                    <h1 className="text-light mx-auto py-2">Cover Guesser</h1>
-                    <h4 className="text-warning mx-auto py-2">New Game</h4>
+                    <p className='text-center text-warning fs-3 fw-bold w-25'>Wins - 0</p>
+                    <p className='text-center text-light fs-2 fw-bold w-50'>Cover Guesser</p>
+                    <p className='text-center text-warning fs-3 fw-bold w-25'>New Game</p>
                 </Stack>
-            </header>
+            </Container>
         </>
     )
 }
