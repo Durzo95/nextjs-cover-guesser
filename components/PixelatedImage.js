@@ -6,7 +6,7 @@ export default function PixelatedImage({ src, size, enabled }) {
     return (
         <>
             {/* <svg style={{ width: `${width}px`, height: `${height}px` }}> */}
-            <svg>
+            <svg style={{ width: '100%', height: '100%' }}>
                 < filter id="pixelate" x="0" y="0" >
                     <feFlood x={4} y={4} height={1} width={1} />
                     <feComposite width={size * 2} height={size * 2} />
@@ -15,12 +15,11 @@ export default function PixelatedImage({ src, size, enabled }) {
                     <feMorphology operator="dilate" radius={size} />
                 </filter >
                 <image
-                    // width='100%'
+                    width='100%'
                     height='100%'
-                    preserveAspectRatio="xMidYMid slice"
+                    // preserveAspectRatio="xMidYMid slice"
                     filter={enabled ? "url(#pixelate)" : ""}
                     href={src}
-                    className=""
                 />
             </svg >
         </>
