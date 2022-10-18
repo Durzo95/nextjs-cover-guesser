@@ -11,7 +11,7 @@ export default function NameInput() {
                 <Form.Control className="me-auto" placeholder="Guess name here..." />
                 <Button variant="secondary">Submit</Button>
                 <div className="vr" />
-                <Button variant="outline-danger">Reset</Button>
+                {/* <Button variant="outline-danger">Reset</Button> */}
             </Stack>
         </Container>
     )
