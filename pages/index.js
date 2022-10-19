@@ -20,9 +20,6 @@ export default function Home({ data }) {
   // Game State Settings
   const [userGuess, setUserGuess] = useState('');
   const [score, setScore] = useState(0);
-  const [guesses, setGuesses] = useState(0);
-  const [correctGuesses, setCorrectGuesses] = useState(0);
-  const [incorrectGuesses, setIncorrectGuesses] = useState(0);
   // New Game button
   const [newGame, setNewGame] = useState(false);
 
@@ -37,12 +34,6 @@ export default function Home({ data }) {
         setGameSummary(data.summary);
         // Clear the user's guess
         setUserGuess('');
-        // Reset the number of guesses
-        setGuesses(0);
-        // Reset the number of correct guesses
-        setCorrectGuesses(0);
-        // Reset the number of incorrect guesses
-        setIncorrectGuesses(0);
         // Reset the new game button
         setNewGame(false);
       })
@@ -61,21 +52,6 @@ export default function Home({ data }) {
     }
   }, [data])
 
-
-  const nameInputProps = {
-    gameName,
-    userGuess,
-    setUserGuess,
-    guesses,
-    setGuesses,
-    correctGuesses,
-    setCorrectGuesses,
-    incorrectGuesses,
-    setIncorrectGuesses,
-    score,
-    setScore
-  }
-
   return (
     <>
       <MainLayout>
@@ -87,12 +63,6 @@ export default function Home({ data }) {
             gameName={gameName}
             setUserGuess={setUserGuess}
             userGuess={userGuess}
-            guesses={guesses}
-            setGuesses={setGuesses}
-            correctGuesses={correctGuesses}
-            setCorrectGuesses={setCorrectGuesses}
-            incorrectGuesses={incorrectGuesses}
-            setIncorrectGuesses={setIncorrectGuesses}
             score={score}
             setScore={setScore}
           />
