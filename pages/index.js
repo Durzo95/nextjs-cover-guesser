@@ -12,8 +12,6 @@ import Stack from 'react-bootstrap/Stack'
 export default function Home({ data }) {
   // The values from the IGDB API
   const [coverUrl, setCoverUrl] = useState('');
-  const [width, setWidth] = useState(608);
-  const [height, setHeight] = useState(810);
   const [gameName, setGameName] = useState('');
   const [gameSummary, setGameSummary] = useState('');
   // The pixelation settings
@@ -31,8 +29,6 @@ export default function Home({ data }) {
     // if the data is not null, set the state with the data
     if (data) {
       setCoverUrl(data.cover.url);
-      setWidth(data.cover.width);
-      setHeight(data.cover.height);
       setGameName(data.name);
       setGameSummary(data.summary);
     }
