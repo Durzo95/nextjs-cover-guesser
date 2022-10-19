@@ -20,27 +20,6 @@ export default function Home({ data }) {
   // Game State Settings
   const [userGuess, setUserGuess] = useState('');
   const [score, setScore] = useState(0);
-  // New Game button
-  const [newGame, setNewGame] = useState(false);
-
-  // Get a new game when the new game button is clicked
-  useEffect(() => {
-    if (newGame) {
-      // Get new game data from the IGDB API
-      const data = getGameData().then(data => {
-        // Set the state with the new game data
-        setCoverUrl(data.cover.url);
-        setGameName(data.name);
-        setGameSummary(data.summary);
-        // Clear the user's guess
-        setUserGuess('');
-        // Reset the new game button
-        setNewGame(false);
-      })
-    }
-
-  }, [newGame])
-
 
   // set the state with the data from the api call once the component mounts
   useEffect(() => {
