@@ -23,6 +23,33 @@ export default function Home({ data }) {
   const [guesses, setGuesses] = useState(0);
   const [correctGuesses, setCorrectGuesses] = useState(0);
   const [incorrectGuesses, setIncorrectGuesses] = useState(0);
+  // New Game button
+  const [newGame, setNewGame] = useState(false);
+
+  // Get a new game when the new game button is clicked
+  useEffect(() => {
+    if (newGame) {
+      // Get new game data from the IGDB API
+      const data = getGameData().then(data => {
+        // Set the state with the new game data
+        setCoverUrl(data.cover.url);
+        setGameName(data.name);
+        setGameSummary(data.summary);
+        // Clear the user's guess
+        setUserGuess('');
+        // Reset the number of guesses
+        setGuesses(0);
+        // Reset the number of correct guesses
+        setCorrectGuesses(0);
+        // Reset the number of incorrect guesses
+        setIncorrectGuesses(0);
+        // Reset the new game button
+        setNewGame(false);
+      })
+    }
+
+  }, [newGame])
+
 
   // set the state with the data from the api call once the component mounts
   useEffect(() => {
@@ -33,6 +60,21 @@ export default function Home({ data }) {
       setGameSummary(data.summary);
     }
   }, [data])
+
+
+  const nameInputProps = {
+    gameName,
+    userGuess,
+    setUserGuess,
+    guesses,
+    setGuesses,
+    correctGuesses,
+    setCorrectGuesses,
+    incorrectGuesses,
+    setIncorrectGuesses,
+    score,
+    setScore
+  }
 
   return (
     <>
