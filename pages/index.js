@@ -45,7 +45,19 @@ export default function Home({ data }) {
           <MenuBar score={score} />
           {/* Only show the game cover once the data has been loaded */}
           {data && <Cover coverUrl={coverUrl} pixelSize={pixelSize} pixelizeEnabled={pixelizeEnabled} />}
-          <NameInput gameName={gameName} />
+          <NameInput
+            gameName={gameName}
+            setUserGuess={setUserGuess}
+            userGuess={userGuess}
+            guesses={guesses}
+            setGuesses={setGuesses}
+            correctGuesses={correctGuesses}
+            setCorrectGuesses={setCorrectGuesses}
+            incorrectGuesses={incorrectGuesses}
+            setIncorrectGuesses={setIncorrectGuesses}
+            score={score}
+            setScore={setScore}
+          />
         </Stack>
       </MainLayout>
     </>
