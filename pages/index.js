@@ -24,12 +24,20 @@ export default function Home({ data }) {
   // set the state with the data from the api call once the component mounts
   useEffect(() => {
     // if the data is not null, set the state with the data
-    if (data) {
-      setCoverUrl(data.cover.url);
-      setGameName(data.name);
-      setGameSummary(data.summary);
+  // Create a const list of the props to be sent to NameInput
+  const nameInputProps = {
+    userGuess,
+    setUserGuess,
+    gameName,
+    setScore,
+    score,
+    pixelSize,
+    setPixelSize,
+    pixelizeEnabled,
+    setPixelizeEnabled,
+    setFetchData
     }
-  }, [data])
+
 
   return (
     <>
@@ -38,12 +46,7 @@ export default function Home({ data }) {
           <MenuBar score={score} />
           {/* Only show the game cover once the data has been loaded */}
           {data && <Cover coverUrl={coverUrl} pixelSize={pixelSize} pixelizeEnabled={pixelizeEnabled} />}
-          <NameInput
-            gameName={gameName}
-            setUserGuess={setUserGuess}
-            userGuess={userGuess}
-            score={score}
-            setScore={setScore}
+          <NameInput {...nameInputProps}
           />
         </Stack>
       </MainLayout>
