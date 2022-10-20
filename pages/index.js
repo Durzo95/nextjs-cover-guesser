@@ -4,6 +4,7 @@ import MenuBar from '../components/MenuBar'
 import MainLayout from '../components/MainLayout'
 import Cover from '../components/Cover'
 import NameInput from '../components/NameInput'
+import HealthBar from '../components/HealthBar.js'
 import { getGameData } from './api/GamesData'
 import Stack from 'react-bootstrap/Stack'
 
@@ -22,6 +23,7 @@ export default function Home({ data }) {
   // Game State Settings
   const [userGuess, setUserGuess] = useState('');
   const [score, setScore] = useState(0);
+  const [health, setHealth] = useState(5);
   // Indicator to re fetch data
   const [fetchData, setFetchData] = useState(false);
 
@@ -70,6 +72,7 @@ export default function Home({ data }) {
     setPixelSize,
     pixelizeEnabled,
     setPixelizeEnabled,
+    setHealth,
     setFetchData
   }
 
@@ -79,6 +82,7 @@ export default function Home({ data }) {
       <MainLayout>
         <Stack direction='vertical' gap={4}>
           <MenuBar score={score} />
+          <HealthBar health={health} />
           {/* Only show the game cover once the data has been loaded */}
           {gameData && <Cover coverUrl={coverUrl} pixelSize={pixelSize} pixelizeEnabled={pixelizeEnabled} />}
           <NameInput {...nameInputProps}

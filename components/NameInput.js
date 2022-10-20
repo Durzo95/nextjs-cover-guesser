@@ -50,6 +50,8 @@ export default function NameInput(props) {
             if (props.pixelSize > 3) {
                 props.setPixelSize(props.pixelSize - 1);
             }
+            //If the health is not 0, decrease the health by 1
+            props.health === 0 ? alert('Game Over') : props.setHealth(props.health - 1);
         }
     }
 
