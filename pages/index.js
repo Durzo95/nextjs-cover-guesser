@@ -80,7 +80,7 @@ export default function Home({ data }) {
         <Stack direction='vertical' gap={4}>
           <MenuBar score={score} />
           {/* Only show the game cover once the data has been loaded */}
-          {data && <Cover coverUrl={coverUrl} pixelSize={pixelSize} pixelizeEnabled={pixelizeEnabled} />}
+          {gameData && <Cover coverUrl={coverUrl} pixelSize={pixelSize} pixelizeEnabled={pixelizeEnabled} />}
           <NameInput {...nameInputProps}
           />
         </Stack>
