@@ -9,35 +9,47 @@ import { Row, Col } from 'react-bootstrap'
 
 
 
-export default function NameInput(
-    {
-        gameName,
-        userGuess,
-        setUserGuess,
-        guesses,
-        setGuesses,
-        correctGuessesm,
-        setCorrectGuesses,
-        incorrectGuesses,
-        setIncorrectGuesses,
-        score,
-        setScore
-    }
-) {
+export default function NameInput(props) {
 
-    const handleUserGuess = (e) => {
-        setUserGuess(e.target.value);
+    const handleUserInput = (e) => {
+        props.setUserGuess(e.target.value);
     }
 
-    // Check if the user's guess is correct
+    // function for the correct guess
+    const correctGuess = () => {
+        // increase the score by 1
+        props.setScore(props.score + 1);
+        // reset the user guess
+        props.setUserGuess('');
+        // reset the pixel size
+        props.setPixelSize(10);
+        // enable pixelation
+        props.setPixelizeEnabled(true);
+    }
+
+    // Function to check if the user has guessed the correct name
     const checkGuess = () => {
-        if (userGuess.toLowerCase() === gameName.toLowerCase()) {
-            alert('Correct!')
-            setScore(score + 1);
-            setCorrectGuesses(correctGuesses + 1);
+        // If the user has guessed the correct name
+        if (props.userGuess.toLowerCase() === props.gameName.toLowerCase()) {
+            alert('Correct!');
+            // Increase the score by 1
+            props.setScore(props.score + 1);
+            // Reset the user guess
+            props.setUserGuess('');
+            // Reset the pixel size
+            props.setPixelSize(10);
+            // Enable pixelation
+            props.setPixelizeEnabled(true);
+            // Fetch new game data
+            props.setFetchData(true);
         } else {
-            alert('Incorrect!')
-            setIncorrectGuesses(incorrectGuesses + 1);
+            alert('Incorrect!');
+            // Reset the user guess
+            props.setUserGuess('');
+            // Reset the pixel size
+            if (props.pixelSize > 3) {
+                props.setPixelSize(props.pixelSize - 1);
+            }
         }
     }
 
@@ -50,7 +62,7 @@ export default function NameInput(
                         <Form.Control type="text" placeholder="Enter Game Name" value={props.userGuess} onChange={handleUserInput} className='me-auto' />
                     </Col>
                     <Col xs={4} md={2}>
-                <Button variant="primary" onClick={checkGuess}>Submit</Button>
+                        <Button variant="primary" onClick={checkGuess}>Submit</Button>
                     </Col>
                 </Row>
             </Form.Group>

@@ -10,6 +10,8 @@ import Stack from 'react-bootstrap/Stack'
 
 
 export default function Home({ data }) {
+  // UseState for the data
+  const [gameData, setGameData] = useState(data);
   // The values from the IGDB API
   const [coverUrl, setCoverUrl] = useState('');
   const [gameName, setGameName] = useState('');
@@ -20,10 +22,43 @@ export default function Home({ data }) {
   // Game State Settings
   const [userGuess, setUserGuess] = useState('');
   const [score, setScore] = useState(0);
+  // Indicator to re fetch data
+  const [fetchData, setFetchData] = useState(false);
+
+  // Function to fetch new game data
+  const fetchNewGameData = async () => {
+    const apiResponse = await fetch('/api/GamesData');
+    let data = await apiResponse.json();
+    setGameData(data);
+    setFetchData(false);
+  }
+
+  // Refetch data when the fetchData state changes
+  useEffect(() => {
+    if (fetchData) {
+      fetchNewGameData();
+    }
+  }, [fetchData])
+
+
+
 
   // set the state with the data from the api call once the component mounts
   useEffect(() => {
     // if the data is not null, set the state with the data
+    if (gameData) {
+      setCoverUrl(gameData.cover.url);
+      setGameName(gameData.name);
+      setGameSummary(gameData.summary);
+      // Reset the pixel size
+      setPixelSize(10);
+      // Enable pixelation
+      setPixelizeEnabled(true);
+      // Reset the user guess
+      setFetchData(false);
+    }
+  }, [gameData])
+
   // Create a const list of the props to be sent to NameInput
   const nameInputProps = {
     userGuess,
@@ -36,7 +71,7 @@ export default function Home({ data }) {
     pixelizeEnabled,
     setPixelizeEnabled,
     setFetchData
-    }
+  }
 
 
   return (
