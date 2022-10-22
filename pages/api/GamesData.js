@@ -18,6 +18,8 @@ export async function getGameData() {
 
   let data = await apiResponse.json();
   data = processData(data);
+  console.log(data)
+
 
   return data;
 }
