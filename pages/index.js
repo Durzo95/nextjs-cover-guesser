@@ -9,6 +9,7 @@ import { getGameData } from './api/GamesData'
 import Stack from 'react-bootstrap/Stack'
 
 const maxHealth = 4;
+const maxPixelSize = 10;
 
 export default function Home() {
   // UseState for the data
@@ -24,13 +25,19 @@ export default function Home() {
   const [userGuess, setUserGuess] = useState('');
   const [score, setScore] = useState(0);
   const [health, setHealth] = useState(maxHealth);
+  const [gameWon, setGameWon] = useState(false);
+  const [gameLost, setGameLost] = useState(false);
   // Indicator to re fetch data
   const [fetchData, setFetchData] = useState(false);
-  // If the user won the game
-  const [gameWon, setGameWon] = useState(false);
-  // If the user lost the game
-  const [gameLost, setGameLost] = useState(false);
 
+  const resetGameState = () => {
+    setFetchData(true);
+    setGameWon(false);
+    setGameLost(false);
+    setHealth(maxHealth);
+    setPixelSize(maxPixelSize);
+    setUserGuess('');
+  }
   // Function to fetch new game data
   // This has to be a seperate function because useEffect can't be async
   const fetchNewGameData = async () => {
@@ -39,8 +46,8 @@ export default function Home() {
     setGameData(data);
     setFetchData(false);
   }
-  // Refetch data when the fetchData state changes
-  useEffect(() => { fetchNewGameData(); }, [])
+  // fetch the data initially
+  useEffect(() => { setFetchData(true); }, [])
 
   // Refetch data when the fetchData state changes
   useEffect(() => {
@@ -57,7 +64,7 @@ export default function Home() {
       setGameName(gameData.name);
       setGameSummary(gameData.summary);
       // Reset the pixel size
-      setPixelSize(10);
+      setPixelSize(maxPixelSize);
       // Enable pixelation
       setPixelizeEnabled(true);
     }
@@ -66,57 +73,35 @@ export default function Home() {
   // What happens when the user wins or loses
   useEffect(() => {
     if (gameWon) {
-      setPixelizeEnabled(false);
-      // increase the score by 1
-      setScore(score + 1);
-      // reset the user guess
-      setUserGuess('');
-      // reset the pixel size
-      setPixelSize(10);
-      setHealth(maxHealth);
-      // enable pixelation
-      // Fetch new game data
-      setFetchData(true);
-      // Reset the gameWon state
-      setGameWon(false);
       alert('Correct!');
-      setGameLost(false);
+      setPixelizeEnabled(false);
+      setScore(score + 1);
+      resetGameState();
     }
     else if (gameLost) {
-      // reset the user guess
-      setUserGuess('');
-      // reset the pixel size
-      setPixelSize(10);
-      // enable pixelation
+      alert('Game Over!');
       setPixelizeEnabled(false);
-      // Fetch new game data
-      setFetchData(true);
-      // reset the health
-      setHealth(maxHealth);
-      // reset the score
       setScore(0);
-      // Reset the gameLost state
-      setGameLost(false);
-      setGameWon(false);
+      resetGameState();
     }
     // eslint-disable-next-line
   }, [gameWon, gameLost])
 
   // What happens when the user loses health
+  // The user never gains health, only loses it
   useEffect(() => {
-    if (health <= 1) {
+    if (health === 0) {
       // set the gameLost state to true
       setGameLost(true);
-      alert('Game Over!');
-      return;
     }
-    if (health < maxHealth) {
+    else if (health < maxHealth) {
       alert('Incorrect!');
       setUserGuess('');
       if (pixelSize > 4) {
         setPixelSize(pixelSize - 2);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [health])
 
 
@@ -145,10 +130,3 @@ export default function Home() {
     </>
   )
 }
-
-// export const getServerSideProps = async (context) => {
-//   const data = await getGameData();
-
-//   console.log(data);
-//   return { props: { data } }
-// }

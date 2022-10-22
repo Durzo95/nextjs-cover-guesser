@@ -12,6 +12,16 @@ export default function NameInput(props) {
         props.setUserGuess(e.target.value);
     }
 
+    // handle the user pressing enter
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            console.log(e.target.value)
+            handleUserInput(e);
+            checkGuess();
+        }
+    }
+
+
     // What happens when the user wins
     const correctGuess = () => {
         props.setGameWon(true);
@@ -41,7 +51,7 @@ export default function NameInput(props) {
             <Form.Group>
                 <Row className='p-3'>
                     <Col xs={8} md={10}>
-                        <Form.Control type="text" placeholder="Enter Game Name" value={props.userGuess} onChange={handleUserInput} className='me-auto' />
+                        <Form.Control type="text" placeholder="Enter Game Name" value={props.userGuess} onChange={handleUserInput} onKeyUp={handleKeyPress} className='me-auto' />
                     </Col>
                     <Col xs={4} md={2}>
                         <Button variant="primary" onClick={checkGuess}>Submit</Button>
