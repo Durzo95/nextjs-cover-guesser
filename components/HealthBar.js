@@ -10,11 +10,11 @@ export default function HealthBar({ health }) {
             <Container className='bg-dark rounded-3'>
                 {/* Loop through and add hears centered and spaced evenly */}
                 <Row className='justify-content-center'>
-                    {Array.from(Array(health).keys()).map((i) => (
+                    {[...Array(health)].map((h, i) =>
                         <Col key={i} className='text-center'>
                             <Image src={heart} alt='heart' />
                         </Col>
-                    ))}
+                    )}
                 </Row>
             </Container>
 
