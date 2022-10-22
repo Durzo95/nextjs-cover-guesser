@@ -8,11 +8,11 @@ import HealthBar from '../components/HealthBar.js'
 import { getGameData } from './api/GamesData'
 import Stack from 'react-bootstrap/Stack'
 
+const maxHealth = 4;
 
-
-export default function Home({ data }) {
+export default function Home() {
   // UseState for the data
-  const [gameData, setGameData] = useState(data);
+  const [gameData, setGameData] = useState();
   // The values from the IGDB API
   const [coverUrl, setCoverUrl] = useState('');
   const [gameName, setGameName] = useState('');
@@ -23,17 +23,24 @@ export default function Home({ data }) {
   // Game State Settings
   const [userGuess, setUserGuess] = useState('');
   const [score, setScore] = useState(0);
-  const [health, setHealth] = useState(5);
+  const [health, setHealth] = useState(maxHealth);
   // Indicator to re fetch data
   const [fetchData, setFetchData] = useState(false);
+  // If the user won the game
+  const [gameWon, setGameWon] = useState(false);
+  // If the user lost the game
+  const [gameLost, setGameLost] = useState(false);
 
   // Function to fetch new game data
+  // This has to be a seperate function because useEffect can't be async
   const fetchNewGameData = async () => {
     const apiResponse = await fetch('/api/GamesData');
     let data = await apiResponse.json();
     setGameData(data);
     setFetchData(false);
   }
+  // Refetch data when the fetchData state changes
+  useEffect(() => { fetchNewGameData(); }, [])
 
   // Refetch data when the fetchData state changes
   useEffect(() => {
@@ -41,9 +48,6 @@ export default function Home({ data }) {
       fetchNewGameData();
     }
   }, [fetchData])
-
-
-
 
   // set the state with the data from the api call once the component mounts
   useEffect(() => {
@@ -56,8 +60,6 @@ export default function Home({ data }) {
       setPixelSize(10);
       // Enable pixelation
       setPixelizeEnabled(true);
-      // Reset the user guess
-      setFetchData(false);
     }
   }, [gameData])
 
@@ -128,8 +130,6 @@ export default function Home({ data }) {
     health,
     setHealth,
   }
-
-
   return (
     <>
       <MainLayout>
@@ -146,9 +146,9 @@ export default function Home({ data }) {
   )
 }
 
-export const getServerSideProps = async (context) => {
-  const data = await getGameData();
+// export const getServerSideProps = async (context) => {
+//   const data = await getGameData();
 
-  console.log(data);
-  return { props: { data } }
-}
+//   console.log(data);
+//   return { props: { data } }
+// }
