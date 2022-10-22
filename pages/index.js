@@ -30,13 +30,16 @@ export default function Home() {
   // Indicator to re fetch data
   const [fetchData, setFetchData] = useState(false);
 
-  const resetGameState = () => {
+  const resetGameState = (resetScore = true) => {
     setFetchData(true);
     setGameWon(false);
     setGameLost(false);
     setHealth(maxHealth);
     setPixelSize(maxPixelSize);
     setUserGuess('');
+    if (resetScore) {
+      setScore(0);
+    }
   }
   // Function to fetch new game data
   // This has to be a seperate function because useEffect can't be async
@@ -76,12 +79,13 @@ export default function Home() {
       alert('Correct!');
       setPixelizeEnabled(false);
       setScore(score + 1);
-      resetGameState();
+      // Reset the game state
+      // Do not reset the score
+      resetGameState(false);
     }
     else if (gameLost) {
       alert('Game Over!');
       setPixelizeEnabled(false);
-      setScore(0);
       resetGameState();
     }
     // eslint-disable-next-line
