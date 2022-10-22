@@ -17,7 +17,6 @@ export default function HealthBar({ health }) {
                     )}
                 </Row>
             </Container>
-
         </>
     )
 }
