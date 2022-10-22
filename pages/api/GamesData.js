@@ -2,7 +2,10 @@
 
 // this is the api route that is called by the Cover component
 export async function getGameData() {
-  const queryBody = 'fields name,cover.url, cover.height, cover.width, total_rating_count, rating, summary;\nwhere total_rating_count != null & cover != null;  \nsort total_rating_count desc;'
+  const queryBody = `fields name,cover.url, cover.height, cover.width, total_rating_count, rating, summary, franchises.name;
+                      where total_rating_count != null & cover != null;  
+                      sort total_rating_count desc;
+                      limit 50;`;
   const apiResponse = await fetch('https://api.igdb.com/v4/games', {
     method: 'POST',
     headers: {
