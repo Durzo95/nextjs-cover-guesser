@@ -7,7 +7,7 @@ import heart from '../public/heart.svg'
 export default function HealthBar({ health }) {
     return (
         <>
-            <Container className='bg-dark rounded-3'>
+            <Container className='bg-dark rounded-3 top-bar'>
                 {/* Loop through and add hears centered and spaced evenly */}
                 <Row className='justify-content-center'>
                     {[...Array(health)].map((h, i) =>
