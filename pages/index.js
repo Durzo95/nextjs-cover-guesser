@@ -27,6 +27,7 @@ export default function Home() {
   const [health, setHealth] = useState(maxHealth);
   const [gameWon, setGameWon] = useState(false);
   const [gameLost, setGameLost] = useState(false);
+  const [restartGame, setRestartGame] = useState(false);
   // Indicator to re fetch data
   const [fetchData, setFetchData] = useState(false);
 
@@ -91,6 +92,16 @@ export default function Home() {
     // eslint-disable-next-line
   }, [gameWon, gameLost])
 
+  // When the user presses the restart button
+  useEffect(() => {
+    if (restartGame) {
+      setScore(0);
+      resetGameState();
+      setRestartGame(false);
+    }
+  }, [restartGame])
+
+
   // What happens when the user loses health
   // The user never gains health, only loses it
   useEffect(() => {
@@ -123,7 +134,7 @@ export default function Home() {
     <>
       <MainLayout>
         <Stack direction='vertical' gap={4}>
-          <MenuBar score={score} />
+          <MenuBar score={score} setRestartGame={setRestartGame} />
           <HealthBar health={health} />
           {/* Only show the game cover once the data has been loaded */}
           {gameData && <Cover coverUrl={coverUrl} pixelSize={pixelSize} pixelizeEnabled={pixelizeEnabled} />}
