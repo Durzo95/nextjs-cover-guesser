@@ -11,7 +11,7 @@ export default function MenuBar({ score }) {
                     <p className='text-center text-light fs-2 fw-bold mb-0 w-50'>Cover Guesser</p>
                     {/* Button to set new game */}
                     <Link href='/'>
-                        <a className='btn btn-warning fs-4'>New Game</a>
+                        <a className='text-center btn btn-danger fs-5'>Restart</a>
                     </Link>
                 </Stack>
             </Container>
