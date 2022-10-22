@@ -6,52 +6,32 @@ import Button from 'react-bootstrap/Button'
 import { Row, Col } from 'react-bootstrap'
 
 
-
-
-
 export default function NameInput(props) {
 
     const handleUserInput = (e) => {
         props.setUserGuess(e.target.value);
     }
 
-    // function for the correct guess
+    // What happens when the user wins
     const correctGuess = () => {
-        // increase the score by 1
-        props.setScore(props.score + 1);
-        // reset the user guess
-        props.setUserGuess('');
-        // reset the pixel size
-        props.setPixelSize(10);
-        // enable pixelation
-        props.setPixelizeEnabled(true);
+        props.setGameWon(true);
+    }
+    // What happens when the user loses
+    const incorrectGuess = () => {
+        if (props.health <= 1) {
+            props.setGameLost(true);
+            return;
+        }
+        props.setHealth(props.health - 1);
     }
 
     // Function to check if the user has guessed the correct name
     const checkGuess = () => {
         // If the user has guessed the correct name
         if (props.userGuess.toLowerCase() === props.gameName.toLowerCase()) {
-            alert('Correct!');
-            // Increase the score by 1
-            props.setScore(props.score + 1);
-            // Reset the user guess
-            props.setUserGuess('');
-            // Reset the pixel size
-            props.setPixelSize(10);
-            // Enable pixelation
-            props.setPixelizeEnabled(true);
-            // Fetch new game data
-            props.setFetchData(true);
+            correctGuess();
         } else {
-            alert('Incorrect!');
-            // Reset the user guess
-            props.setUserGuess('');
-            // Reset the pixel size
-            if (props.pixelSize > 3) {
-                props.setPixelSize(props.pixelSize - 1);
-            }
-            //If the health is not 0, decrease the health by 1
-            props.health === 0 ? alert('Game Over') : props.setHealth(props.health - 1);
+            incorrectGuess();
         }
     }
 

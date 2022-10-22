@@ -61,19 +61,72 @@ export default function Home({ data }) {
     }
   }, [gameData])
 
+  // What happens when the user wins or loses
+  useEffect(() => {
+    if (gameWon) {
+      setPixelizeEnabled(false);
+      // increase the score by 1
+      setScore(score + 1);
+      // reset the user guess
+      setUserGuess('');
+      // reset the pixel size
+      setPixelSize(10);
+      setHealth(maxHealth);
+      // enable pixelation
+      // Fetch new game data
+      setFetchData(true);
+      // Reset the gameWon state
+      setGameWon(false);
+      alert('Correct!');
+      setGameLost(false);
+    }
+    else if (gameLost) {
+      // reset the user guess
+      setUserGuess('');
+      // reset the pixel size
+      setPixelSize(10);
+      // enable pixelation
+      setPixelizeEnabled(false);
+      // Fetch new game data
+      setFetchData(true);
+      // reset the health
+      setHealth(maxHealth);
+      // reset the score
+      setScore(0);
+      // Reset the gameLost state
+      setGameLost(false);
+      setGameWon(false);
+    }
+    // eslint-disable-next-line
+  }, [gameWon, gameLost])
+
+  // What happens when the user loses health
+  useEffect(() => {
+    if (health <= 1) {
+      // set the gameLost state to true
+      setGameLost(true);
+      alert('Game Over!');
+      return;
+    }
+    if (health < maxHealth) {
+      alert('Incorrect!');
+      setUserGuess('');
+      if (pixelSize > 4) {
+        setPixelSize(pixelSize - 2);
+      }
+    }
+  }, [health])
+
+
   // Create a const list of the props to be sent to NameInput
   const nameInputProps = {
     userGuess,
     setUserGuess,
     gameName,
-    setScore,
-    score,
-    pixelSize,
-    setPixelSize,
-    pixelizeEnabled,
-    setPixelizeEnabled,
+    setGameLost,
+    setGameWon,
+    health,
     setHealth,
-    setFetchData
   }
 
 
