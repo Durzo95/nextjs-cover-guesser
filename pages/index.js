@@ -5,8 +5,9 @@ import MainLayout from '../components/MainLayout'
 import Cover from '../components/Cover'
 import NameInput from '../components/NameInput'
 import HealthBar from '../components/HealthBar.js'
-import { getGameData } from './api/GamesData'
 import Stack from 'react-bootstrap/Stack'
+import React from 'react';
+import { ToastContainer, toast } from 'react-toastify';
 
 const maxHealth = 4;
 const maxPixelSize = 10;
@@ -18,6 +19,9 @@ export default function Home() {
   const [coverUrl, setCoverUrl] = useState('');
   const [gameName, setGameName] = useState('');
   const [gameSummary, setGameSummary] = useState('');
+  const [gameReleaseDate, setGameReleaseDate] = useState('');
+  const [gameRating, setGameRating] = useState('');
+  const [gameGenres, setGameGenres] = useState('');
   // The pixelation settings
   const [pixelSize, setPixelSize] = useState(10); // This changes how big the pixels are during pixelation
   const [pixelizeEnabled, setPixelizeEnabled] = useState(true)
@@ -30,6 +34,36 @@ export default function Home() {
   const [restartGame, setRestartGame] = useState(false);
   // Indicator to re fetch data
   const [fetchData, setFetchData] = useState(false);
+
+  const notifyCorrectGuess = () => {
+    let message = `Correct! ${gameName} was released in ${gameReleaseDate} and has a rating of ${gameRating}`;
+    toast.success(message);
+  }
+
+  const notifyGameLost = () => {
+    let message = `Game Over! ${gameName} was released in ${gameReleaseDate} and has a rating of ${gameRating}`;
+    toast.error(message);
+  }
+
+  const notifyIncorrectGuess = () => {
+    let hint = '';
+
+    if (health == 3) {
+      hint = `Hint: Game was released in ${gameReleaseDate}`;
+    }
+    else if (health == 2) {
+      hint = `Hint: Game has the following genres ${gameGenres}`;
+    }
+    else if (health == 1) {
+      hint = `Hint: ${gameSummary}`;
+    }
+
+    let message = `Incorrect! ${hint}`;
+
+
+    toast.error(message);
+  }
+
 
   const resetGameState = (resetScore = true) => {
     setFetchData(true);
@@ -71,13 +105,21 @@ export default function Home() {
       setPixelSize(maxPixelSize);
       // Enable pixelation
       setPixelizeEnabled(true);
+      // Set the release date
+      setGameReleaseDate(gameData.first_release_date);
+      // Set the rating
+      setGameRating(gameData.rating);
+      // Set the genres
+      setGameGenres(gameData.genres);
+
     }
   }, [gameData])
 
   // What happens when the user wins or loses
   useEffect(() => {
     if (gameWon) {
-      alert('Correct!');
+      // alert('Correct!');
+      notifyCorrectGuess();
       setPixelizeEnabled(false);
       setScore(score + 1);
       // Reset the game state
@@ -85,7 +127,7 @@ export default function Home() {
       resetGameState(false);
     }
     else if (gameLost) {
-      alert('Game Over!');
+      // alert('Game Over!');
       setPixelizeEnabled(false);
       resetGameState();
     }
@@ -106,11 +148,14 @@ export default function Home() {
   // The user never gains health, only loses it
   useEffect(() => {
     if (health === 0) {
+      notifyGameLost();
       // set the gameLost state to true
       setGameLost(true);
+
     }
     else if (health < maxHealth) {
-      alert('Incorrect!');
+      // alert('Incorrect!');
+      notifyIncorrectGuess();
       setUserGuess('');
       if (pixelSize > 4) {
         setPixelSize(pixelSize - 2);
@@ -130,6 +175,20 @@ export default function Home() {
     health,
     setHealth,
   }
+
+  // Create a const list of the props to be sent to the toast notification
+  const toastNotificationProps = {
+    gameWon,
+    gameLost,
+    restartGame,
+    gameName,
+    gameSummary,
+    gameReleaseDate,
+    gameRating,
+    gameGenres
+  }
+
+
   return (
     <>
       <MainLayout>
@@ -138,10 +197,21 @@ export default function Home() {
           <HealthBar health={health} />
           {/* Only show the game cover once the data has been loaded */}
           {gameData && <Cover coverUrl={coverUrl} pixelSize={pixelSize} pixelizeEnabled={pixelizeEnabled} />}
-          <NameInput {...nameInputProps}
-          />
+          <NameInput {...nameInputProps} />
         </Stack>
-      </MainLayout>
+      </MainLayout  >
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover={false}
+        theme="dark"
+      />
     </>
   )
 }
