@@ -37,7 +37,6 @@ function processData(data) {
   randomGame.summary = randomGame.summary.replace(/(<([^>]+)>)/gi, '');
   // Convert the release date to readable format, for example September 30th, 2021
   randomGame.first_release_date = new Date(randomGame.first_release_date * 1000).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-  // randomGame.first_release_date = new Date(randomGame.first_release_date * 1000).toLocaleDateString('en-US');
   // Convert the rating to a percentage
   randomGame.rating = `${Math.round(randomGame.rating)}%`;
   // Convert the genres to a string
