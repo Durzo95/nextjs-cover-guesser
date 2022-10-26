@@ -35,6 +35,10 @@ function processData(data) {
   [randomGame.cover.width, randomGame.cover.height] = resizeDimensions(randomGame.cover.width, randomGame.cover.height);
   // Convert the summary to plain text
   randomGame.summary = randomGame.summary.replace(/(<([^>]+)>)/gi, '');
+  // get the first 100 characters of the summary
+  // remove any mention of the game name
+  // add trailing ellipsis
+  randomGame.summary = randomGame.summary.substring(0, 100).replace(randomGame.name, '[REDACTED]') + '...';
   // Convert the release date to readable format, for example September 30th, 2021
   randomGame.first_release_date = new Date(randomGame.first_release_date * 1000).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
   // Convert the rating to a percentage

@@ -40,6 +40,30 @@ export default function Home() {
     toast.success(message);
   }
 
+  const notifyGameLost = () => {
+    let message = `Game Over! ${gameName} was released in ${gameReleaseDate} and has a rating of ${gameRating}`;
+    toast.error(message);
+  }
+
+  const notifyIncorrectGuess = () => {
+    let hint = '';
+
+    if (health == 3) {
+      hint = `Hint: Game was released in ${gameReleaseDate}`;
+    }
+    else if (health == 2) {
+      hint = `Hint: Game has the following genres ${gameGenres}`;
+    }
+    else if (health == 1) {
+      hint = `Hint: ${gameSummary}`;
+    }
+
+    let message = `Incorrect! ${hint}`;
+
+
+    toast.error(message);
+  }
+
 
   const resetGameState = (resetScore = true) => {
     setFetchData(true);
@@ -124,13 +148,14 @@ export default function Home() {
   // The user never gains health, only loses it
   useEffect(() => {
     if (health === 0) {
+      notifyGameLost();
       // set the gameLost state to true
       setGameLost(true);
 
     }
     else if (health < maxHealth) {
       // alert('Incorrect!');
-      notify();
+      notifyIncorrectGuess();
       setUserGuess('');
       if (pixelSize > 4) {
         setPixelSize(pixelSize - 2);
