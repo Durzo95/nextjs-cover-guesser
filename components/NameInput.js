@@ -35,7 +35,14 @@ export default function NameInput(props) {
 
     // Function to check if the user has guessed the correct name
     const checkGuess = () => {
-        if (props.userGuess.toLowerCase() === props.gameName.toLowerCase()) {
+        // formatted user guess
+        // lowercase, no spaces, and no special characters
+        const formattedGuess = props.userGuess.toLowerCase().replace(/[^a-z0-9]/gi, '');
+        // formatted game name
+        // lowercase, no spaces, and no special characters
+        const formattedGameName = props.gameName.toLowerCase().replace(/[^a-z0-9]/gi, '');
+
+        if (formattedGuess === formattedGameName) {
             correctGuess();
         } else {
             incorrectGuess();
