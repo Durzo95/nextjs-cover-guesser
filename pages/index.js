@@ -193,7 +193,7 @@ export default function Home() {
           <MenuBar score={score} setRestartGame={setRestartGame} />
           <HealthBar health={health} />
           {/* Only show the game cover once the data has been loaded */}
-          {gameData && <Cover coverUrl={coverUrl} pixelSize={pixelSize} pixelizeEnabled={pixelizeEnabled} />}
+          <Cover coverUrl={coverUrl} pixelSize={pixelSize} pixelizeEnabled={pixelizeEnabled} />
           <NameInput {...nameInputProps} />
         </Stack>
       </MainLayout  >
