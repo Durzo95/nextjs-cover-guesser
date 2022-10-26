@@ -18,6 +18,9 @@ export default function Home() {
   const [coverUrl, setCoverUrl] = useState('');
   const [gameName, setGameName] = useState('');
   const [gameSummary, setGameSummary] = useState('');
+  const [gameReleaseDate, setGameReleaseDate] = useState('');
+  const [gameRating, setGameRating] = useState('');
+  const [gameGenres, setGameGenres] = useState('');
   // The pixelation settings
   const [pixelSize, setPixelSize] = useState(10); // This changes how big the pixels are during pixelation
   const [pixelizeEnabled, setPixelizeEnabled] = useState(true)
@@ -71,6 +74,13 @@ export default function Home() {
       setPixelSize(maxPixelSize);
       // Enable pixelation
       setPixelizeEnabled(true);
+      // Set the release date
+      setGameReleaseDate(gameData.first_release_date);
+      // Set the rating
+      setGameRating(gameData.total_rating);
+      // Set the genres
+      setGameGenres(gameData.genres);
+
     }
   }, [gameData])
 
