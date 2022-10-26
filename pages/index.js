@@ -5,7 +5,6 @@ import MainLayout from '../components/MainLayout'
 import Cover from '../components/Cover'
 import NameInput from '../components/NameInput'
 import HealthBar from '../components/HealthBar.js'
-import { getGameData } from './api/GamesData'
 import Stack from 'react-bootstrap/Stack'
 
 const maxHealth = 4;
