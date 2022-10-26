@@ -33,20 +33,47 @@ export default function NameInput(props) {
         }
     }
 
+    const removeSpecialCharactersSetLowerCaseNoSpace = (str) => {
+        return str.replace(/[^a-zA-Z ]/g, "").toLowerCase().replace(/\s/g, '');
+    }
+
+    const replaceRomanNumerals = (str) => {
+        return str.replace(/I/g, '1')
+            .replace(/II/g, '2')
+            .replace(/III/g, '3')
+            .replace(/IV/g, '4')
+            .replace(/V/g, '5')
+            .replace(/VI/g, '6')
+            .replace(/VII/g, '7')
+            .replace(/VIII/g, '8')
+            .replace(/IX/g, '9')
+            .replace(/X/g, '10');
+    }
+
     // Function to check if the user has guessed the correct name
     const checkGuess = () => {
-        // formatted user guess
-        // lowercase, no spaces, and no special characters
-        const formattedGuess = props.userGuess.toLowerCase().replace(/[^a-z0-9]/gi, '');
-        // formatted game name
-        // lowercase, no spaces, and no special characters
-        const formattedGameName = props.gameName.toLowerCase().replace(/[^a-z0-9]/gi, '');
+        // formatted user guess and game name
+        // no spaces, all lowercase, no special characters
+        // This is to avoid the user guessing right but getting any spaces or special characters wrong
+        let formattedGuess = removeSpecialCharactersSetLowerCaseNoSpace(props.userGuess);
+        let formattedGameName = removeSpecialCharactersSetLowerCaseNoSpace(props.gameName);
 
-        if (formattedGuess === formattedGameName) {
+        // formatted user guess and game name but replacing all roman numerals with their arabic equivalent
+        let formattedUserGuessNoRomanNumberals = replaceRomanNumerals(props.userGuess)
+        let formattedGameNameNoRomanNumberals = replaceRomanNumerals(props.gameName)
+        // format the no roman numerals strings to remove special characters and set to lowercase
+        formattedUserGuessNoRomanNumberals = removeSpecialCharactersSetLowerCaseNoSpace(formattedUserGuessNoRomanNumberals);
+        formattedGameNameNoRomanNumberals = removeSpecialCharactersSetLowerCaseNoSpace(formattedGameNameNoRomanNumberals);
+
+
+        // Check if the user has guessed the correct name
+        if (formattedGuess === formattedGameName || formattedUserGuessNoRomanNumberals === formattedGameNameNoRomanNumberals) {
             correctGuess();
-        } else {
+        }
+        else {
             incorrectGuess();
         }
+
     }
 
     return (
