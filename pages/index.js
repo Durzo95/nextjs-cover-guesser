@@ -6,6 +6,7 @@ import Cover from '../components/Cover'
 import NameInput from '../components/NameInput'
 import HealthBar from '../components/HealthBar.js'
 import Stack from 'react-bootstrap/Stack'
+import ToastNotification from '../components/ToastNotification'
 
 const maxHealth = 4;
 const maxPixelSize = 10;
@@ -139,6 +140,20 @@ export default function Home() {
     health,
     setHealth,
   }
+
+  // Create a const list of the props to be sent to the toast notification
+  const toastNotificationProps = {
+    gameWon,
+    gameLost,
+    restartGame,
+    gameName,
+    gameSummary,
+    gameReleaseDate,
+    gameRating,
+    gameGenres
+  }
+
+
   return (
     <>
       <MainLayout>
@@ -147,10 +162,10 @@ export default function Home() {
           <HealthBar health={health} />
           {/* Only show the game cover once the data has been loaded */}
           {gameData && <Cover coverUrl={coverUrl} pixelSize={pixelSize} pixelizeEnabled={pixelizeEnabled} />}
-          <NameInput {...nameInputProps}
-          />
+          <NameInput {...nameInputProps} />
         </Stack>
-      </MainLayout>
+      </MainLayout  >
+      <ToastNotification {...toastNotificationProps} />
     </>
   )
 }
