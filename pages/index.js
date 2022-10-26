@@ -6,7 +6,8 @@ import Cover from '../components/Cover'
 import NameInput from '../components/NameInput'
 import HealthBar from '../components/HealthBar.js'
 import Stack from 'react-bootstrap/Stack'
-import ToastNotification from '../components/ToastNotification'
+import React from 'react';
+import { ToastContainer, toast } from 'react-toastify';
 
 const maxHealth = 4;
 const maxPixelSize = 10;
@@ -33,6 +34,12 @@ export default function Home() {
   const [restartGame, setRestartGame] = useState(false);
   // Indicator to re fetch data
   const [fetchData, setFetchData] = useState(false);
+
+  const notifyCorrectGuess = () => {
+    let message = `Correct! ${gameName} was released in ${gameReleaseDate} and has a rating of ${gameRating}`;
+    toast.success(message);
+  }
+
 
   const resetGameState = (resetScore = true) => {
     setFetchData(true);
@@ -77,7 +84,7 @@ export default function Home() {
       // Set the release date
       setGameReleaseDate(gameData.first_release_date);
       // Set the rating
-      setGameRating(gameData.total_rating);
+      setGameRating(gameData.rating);
       // Set the genres
       setGameGenres(gameData.genres);
 
@@ -87,7 +94,8 @@ export default function Home() {
   // What happens when the user wins or loses
   useEffect(() => {
     if (gameWon) {
-      alert('Correct!');
+      // alert('Correct!');
+      notifyCorrectGuess();
       setPixelizeEnabled(false);
       setScore(score + 1);
       // Reset the game state
@@ -95,7 +103,7 @@ export default function Home() {
       resetGameState(false);
     }
     else if (gameLost) {
-      alert('Game Over!');
+      // alert('Game Over!');
       setPixelizeEnabled(false);
       resetGameState();
     }
@@ -118,9 +126,11 @@ export default function Home() {
     if (health === 0) {
       // set the gameLost state to true
       setGameLost(true);
+
     }
     else if (health < maxHealth) {
-      alert('Incorrect!');
+      // alert('Incorrect!');
+      notify();
       setUserGuess('');
       if (pixelSize > 4) {
         setPixelSize(pixelSize - 2);
@@ -165,7 +175,18 @@ export default function Home() {
           <NameInput {...nameInputProps} />
         </Stack>
       </MainLayout  >
-      <ToastNotification {...toastNotificationProps} />
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover={false}
+        theme="dark"
+      />
     </>
   )
 }
