@@ -118,7 +118,6 @@ export default function Home() {
   // What happens when the user wins or loses
   useEffect(() => {
     if (gameWon) {
-      // alert('Correct!');
       notifyCorrectGuess();
       setPixelizeEnabled(false);
       setScore(score + 1);
@@ -127,7 +126,7 @@ export default function Home() {
       resetGameState(false);
     }
     else if (gameLost) {
-      // alert('Game Over!');
+      notifyGameLost();
       setPixelizeEnabled(false);
       resetGameState();
     }
@@ -148,13 +147,11 @@ export default function Home() {
   // The user never gains health, only loses it
   useEffect(() => {
     if (health === 0) {
-      notifyGameLost();
       // set the gameLost state to true
       setGameLost(true);
 
     }
     else if (health < maxHealth) {
-      // alert('Incorrect!');
       notifyIncorrectGuess();
       setUserGuess('');
       if (pixelSize > 4) {
