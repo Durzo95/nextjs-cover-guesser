@@ -8,6 +8,7 @@ import HealthBar from '../components/HealthBar.js'
 import Stack from 'react-bootstrap/Stack'
 import React from 'react';
 import { ToastContainer, toast } from 'react-toastify';
+import Head from 'next/head'
 
 const maxHealth = 4;
 const maxPixelSize = 10;
@@ -188,6 +189,10 @@ export default function Home() {
 
   return (
     <>
+      <Head>
+        <title>Guess The Game</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <MainLayout>
         <Stack direction='vertical' gap={4}>
           <MenuBar score={score} setRestartGame={setRestartGame} />
