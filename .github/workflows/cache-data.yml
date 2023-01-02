@@ -5,7 +5,7 @@ on:
     - cron: "0 3 * * *"
 
 jobs:
-  cache-data:
+  [cache-data, workflow_dispatch]:
     runs-on: ubuntu-latest
     steps:
       - name: Run curl command
