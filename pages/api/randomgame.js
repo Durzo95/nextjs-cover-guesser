@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 // this is the api route that is called by the Cover component
-export async function getRandomGameData() {
+async function getRandomGameData() {
   // get the data from the games api endpoint
   const baseUrl = getAbsoluteUrl();
   const response = await fetch(`${baseUrl}/api/games?server_token=${process.env.server_token}`);
