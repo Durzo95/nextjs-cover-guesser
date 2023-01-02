@@ -1,11 +1,11 @@
 name: Cache Data
 
 on:
-  schedule:
+  [schedule, workflow_dispatch]:
     - cron: "0 3 * * *"
 
 jobs:
-  [cache-data, workflow_dispatch]:
+  cache-data:
     runs-on: ubuntu-latest
     steps:
       - name: Run curl command
