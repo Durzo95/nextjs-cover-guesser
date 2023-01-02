@@ -1,19 +1,17 @@
-const fs = require('fs');
-const path = require('path');
 
 export default async function handler(req, res) {
     try {
-        if (req.query.cache_token !== `${process.env.cache_token}`) {
-            return res.status(403).json({ error: 'Unauthorized' });
+        if (req.query.server_token !== process.env.server_token) {
+            res.status(403).send('Unauthorized');
         }
         // get the data from the IGDB api
-        const result = await getGameData();
-        // save the data to a json file
-        saveData(result);
-        // Get the count of the games in the response
-        return res.status(200).json({ staus: "success", message: `Saved ${result.length} games to cache` });
+        let result = await getGameData();
+        // set the cache control header to 1 day
+        // this will cache the data for 1 day or until the server is redeployed
+        res.setHeader('Cache-Control', 's-maxage=86400');
+        return res.status(200).json(result);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).send(error.message);
         console.log(error);
     }
 }
@@ -23,12 +21,6 @@ async function getGameData() {
     let data = await getIGDB();
     data = processData(data);
     return data;
-}
-
-// function to save the response from the IGDB api to a json file
-async function saveData(data) {
-    const filePath = path.join(process.cwd(), 'data', 'games.json');
-    fs.writeFileSync(filePath, JSON.stringify(data));
 }
 
 async function getIGDB() {
