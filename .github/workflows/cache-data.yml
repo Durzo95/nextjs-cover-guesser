@@ -1,7 +1,8 @@
 name: Cache Data
 
 on:
-  [schedule, workflow_dispatch]:
+  workflow_dispatch:
+  schedule:
     - cron: "0 3 * * *"
 
 jobs:
