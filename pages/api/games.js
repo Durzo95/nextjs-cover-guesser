@@ -1,17 +1,17 @@
 
 export default async function handler(req, res) {
     try {
-        if (req.query.server_token !== `${process.env.server_token}`) {
-            return res.status(403).json({ error: 'Unauthorized' });
+        if (req.query.server_token !== process.env.server_token) {
+            res.status(403).send('Unauthorized');
         }
         // get the data from the IGDB api
-        const result = await getGameData();
+        let result = await getGameData();
         // set the cache control header to 1 day
         // this will cache the data for 1 day or until the server is redeployed
         res.setHeader('Cache-Control', 's-maxage=86400');
         return res.status(200).json(result);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).send(error.message);
         console.log(error);
     }
 }
