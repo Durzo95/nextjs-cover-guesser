@@ -80,7 +80,7 @@ export default function Home() {
   // Function to fetch new game data
   // This has to be a seperate function because useEffect can't be async
   const fetchNewGameData = async () => {
-    const apiResponse = await fetch('/api/GamesData');
+    const apiResponse = await fetch('/api/randomgame');
     let data = await apiResponse.json();
     setGameData(data);
     setFetchData(false);
