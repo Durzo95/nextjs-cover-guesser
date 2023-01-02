@@ -2,7 +2,7 @@
 export default async function handler(req, res) {
     try {
         if (req.query.server_token !== process.env.server_token) {
-            res.status(403).send('Unauthorized');
+            return res.status(403).send('Unauthorized');
         }
         // get the data from the IGDB api
         let result = await getGameData();
@@ -11,8 +11,8 @@ export default async function handler(req, res) {
         res.setHeader('Cache-Control', 's-maxage=86400');
         return res.status(200).json(result);
     } catch (error) {
-        res.status(500).send(error.message);
         console.log(error);
+        return res.status(500).send(error.message);
     }
 }
 
@@ -24,6 +24,9 @@ async function getGameData() {
 }
 
 async function getIGDB() {
+    // Get the access token from the function
+    const accessToken = await generateAccessToken();
+
     const queryBody = `fields name,cover.url, cover.height, cover.width, total_rating_count, rating, summary,first_release_date, franchises.name, genres.name;
                       where total_rating_count != null & cover != null;  
                       sort total_rating_count desc;
@@ -32,7 +35,7 @@ async function getIGDB() {
         method: 'POST',
         headers: {
             'Client-ID': `${process.env.client_id}`,
-            Authorization: `Bearer ${process.env.access_token}`,
+            Authorization: `Bearer ${accessToken}`,
             'Content-Type': 'text/plain'
         },
         body: queryBody
@@ -41,6 +44,23 @@ async function getIGDB() {
     let data = await apiResponse.json();
 
     return data;
+}
+
+async function generateAccessToken() {
+    const response = await fetch('https://id.twitch.tv/oauth2/token', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            client_id: process.env.client_id,
+            client_secret: process.env.client_secret,
+            grant_type: 'client_credentials',
+        }),
+    });
+    const data = await response.json();
+    console.log(data)
+    return data.access_token;
 }
 
 function processData(data) {
