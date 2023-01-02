@@ -3,7 +3,8 @@
 // this is the api route that is called by the Cover component
 export async function getRandomGameData() {
   // get the data from the games api endpoint
-  const data = await fetch('/api/games');
+  baseUrl = getAbsoluteUrl();
+  const data = await fetch(`${baseUrl}/api/games`);
   // Get a random game from the array
   const randomIndex = Math.floor(Math.random() * data.length);
   const randomGameData = data[randomIndex];
@@ -11,6 +12,12 @@ export async function getRandomGameData() {
   return randomGameData;
 }
 
+function getAbsoluteUrl() {
+  if (process.env.VERCEL_ENV === 'development') {
+    return 'http://localhost:3000';
+  }
+  return process.env.VERCEL_URL;
+}
 
 // Path: pages\api\GamesData
 export default async function handler(req, res) {
