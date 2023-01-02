@@ -14,10 +14,11 @@ async function getRandomGameData() {
 }
 
 function getAbsoluteUrl() {
-  if (process.env.VERCEL_ENV === 'development') {
+  if (!process.env.VERCEL_URL) {
     return 'http://localhost:3000';
+  } else {
+    return process.env.VERCEL_URL;
   }
-  return process.env.VERCEL_URL;
 }
 
 // Path: pages\api\GamesData
