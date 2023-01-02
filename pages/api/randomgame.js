@@ -3,8 +3,9 @@
 // this is the api route that is called by the Cover component
 export async function getRandomGameData() {
   // get the data from the games api endpoint
-  let baseUrl = getAbsoluteUrl();
-  const data = await fetch(`${baseUrl}/api/games`);
+  const baseUrl = getAbsoluteUrl();
+  const response = await fetch(`${baseUrl}/api/games?server_token=${process.env.server_token}`);
+  const data = await response.json();
   // Get a random game from the array
   const randomIndex = Math.floor(Math.random() * data.length);
   const randomGameData = data[randomIndex];
