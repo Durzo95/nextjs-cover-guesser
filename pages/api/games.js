@@ -23,9 +23,10 @@ async function getGameData() {
     return data;
 }
 
-async function getIGDB() {
-    // Get the access token from the function
-    const accessToken = await generateAccessToken();
+
+async function getIGDB(retries = 3) {
+    const accessToken = process.env.access_token || await generateAccessToken();
+    process.env.access_token = accessToken;
 
     const queryBody = `fields name,cover.url, cover.height, cover.width, total_rating_count, rating, summary,first_release_date, franchises.name, genres.name;
                       where total_rating_count != null & cover != null;  
@@ -40,6 +41,16 @@ async function getIGDB() {
         },
         body: queryBody
     });
+
+    // This avoids an infinite loop if the access token is expired and fails to renew
+    if (apiResponse.status === 401) {
+        if (retries > 0) {
+            process.env.access_token = await generateAccessToken();
+            data = await getIGDB(retries - 1);
+        } else {
+            throw new Error('Access token is expired and failed to renew after maximum retry limit');
+        }
+    }
 
     let data = await apiResponse.json();
 
