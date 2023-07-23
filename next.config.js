@@ -5,6 +5,7 @@ const nextConfig = {
   images: {
     domains: ['picsum.photos', 'localhost', 'images.igdb.com'],
   },
+  output: 'standalone',
 }
 
 module.exports = nextConfig
